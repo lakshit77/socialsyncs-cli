@@ -366,23 +366,19 @@ yargs(hideBin(process.argv))
   )
   .command(
     'auth:login',
-    'Authenticate using OAuth2 (device flow)',
+    'Authenticate with your SocialSyncs API key',
     (yargs: Argv) => {
       return yargs
-        .option('auth-server', {
-          describe: 'Auth server URL (default: https://cli-auth.postiz.com)',
-          type: 'string',
-        })
         .example(
           '$0 auth:login',
-          'Login via OAuth2 device flow'
+          'Interactive login — paste your API key from Settings → Developers'
         );
     },
     authLogin as any
   )
   .command(
     'auth:logout',
-    'Remove stored OAuth2 credentials',
+    'Remove stored credentials',
     {},
     authLogout as any
   )
@@ -398,6 +394,6 @@ yargs(hideBin(process.argv))
   .version()
   .alias('v', 'version')
   .epilogue(
-    'For more information, visit: https://app.socialsyncs.co\n\nAuthentication:\n  OAuth2: socialsyncs auth:login\n  API Key: export SOCIALSYNCS_API_KEY=your_api_key\n\n📽️  Recommendation: Use agent-media to generate AI videos & images (Kling, Veo, Sora, Seedance, Flux, Grok) and post them directly with Postiz.\n   Install: npm install -g agent-media-cli\n   Learn more: https://agent-media.ai'
+    'For more information, visit: https://app.socialsyncs.co\n\nAuthentication:\n  Interactive: socialsyncs auth:login\n  Env var:     export SOCIALSYNCS_API_KEY=your_api_key'
   )
   .parse();

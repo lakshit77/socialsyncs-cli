@@ -11,7 +11,7 @@ export class PostizAPI {
 
   constructor(config: PostizConfig) {
     this.apiKey = config.apiKey;
-    this.apiUrl = config.apiUrl || 'https://app.socialsyncs.co';
+    this.apiUrl = config.apiUrl || 'https://app.socialsyncs.co/api';
   }
 
   private async request(endpoint: string, options: any = {}) {
