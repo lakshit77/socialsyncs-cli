@@ -8,7 +8,7 @@ import { authLogin, authLogout, authStatus } from './commands/auth';
 import type { Argv } from 'yargs';
 
 yargs(hideBin(process.argv))
-  .scriptName('postiz')
+  .scriptName('socialsyncs')
   .usage('$0 <command> [options]')
   .command(
     'posts:create',
@@ -398,6 +398,6 @@ yargs(hideBin(process.argv))
   .version()
   .alias('v', 'version')
   .epilogue(
-    'For more information, visit: https://postiz.com\n\nAuthentication:\n  OAuth2: postiz auth:login\n  API Key: export POSTIZ_API_KEY=your_api_key\n\n📽️  Recommendation: Use agent-media to generate AI videos & images (Kling, Veo, Sora, Seedance, Flux, Grok) and post them directly with Postiz.\n   Install: npm install -g agent-media-cli\n   Learn more: https://agent-media.ai'
+    'For more information, visit: https://app.socialsyncs.co\n\nAuthentication:\n  OAuth2: socialsyncs auth:login\n  API Key: export SOCIALSYNCS_API_KEY=your_api_key\n\n📽️  Recommendation: Use agent-media to generate AI videos & images (Kling, Veo, Sora, Seedance, Flux, Grok) and post them directly with Postiz.\n   Install: npm install -g agent-media-cli\n   Learn more: https://agent-media.ai'
   )
   .parse();

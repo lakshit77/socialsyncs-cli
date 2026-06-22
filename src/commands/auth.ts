@@ -3,10 +3,10 @@ import { join } from 'path';
 import { homedir } from 'os';
 import fetch from 'node-fetch';
 
-const CREDENTIALS_DIR = join(homedir(), '.postiz');
+const CREDENTIALS_DIR = join(homedir(), '.socialsyncs');
 const CREDENTIALS_FILE = join(CREDENTIALS_DIR, 'credentials.json');
 
-const DEFAULT_AUTH_SERVER = 'https://cli-auth.postiz.com';
+const DEFAULT_AUTH_SERVER = 'https://app.socialsyncs.co';
 
 interface StoredCredentials {
   accessToken: string;
@@ -30,7 +30,6 @@ function saveCredentials(credentials: StoredCredentials): void {
     mkdirSync(CREDENTIALS_DIR, { recursive: true, mode: 0o700 });
   }
   writeFileSync(CREDENTIALS_FILE, JSON.stringify(credentials, null, 2), { encoding: 'utf-8', mode: 0o600 });
-  // Ensure permissions even if file already existed
   chmodSync(CREDENTIALS_FILE, 0o600);
 }
 
@@ -58,11 +57,10 @@ function sleep(ms: number): Promise<void> {
 }
 
 export async function authLogin(argv: any) {
-  const authServer = argv.authServer || process.env.POSTIZ_AUTH_SERVER || DEFAULT_AUTH_SERVER;
+  const authServer = argv.authServer || process.env.SOCIALSYNCS_AUTH_SERVER || DEFAULT_AUTH_SERVER;
 
   console.log('🔐 Starting device authorization flow...\n');
 
-  // Step 1: Request a device code from the auth server
   let deviceCode: string;
   let userCode: string;
   let verificationUri: string;
@@ -92,7 +90,6 @@ export async function authLogin(argv: any) {
     process.exit(1);
   }
 
-  // Step 2: Show the user code and open browser
   console.log('  Your authorization code:\n');
   console.log(`    ┌─────────────────┐`);
   console.log(`    │    ${userCode}    │`);
@@ -104,7 +101,6 @@ export async function authLogin(argv: any) {
 
   console.log('  Waiting for authorization...\n');
 
-  // Step 3: Poll for the token
   const deadline = Date.now() + expiresIn * 1000;
 
   while (Date.now() < deadline) {
@@ -122,7 +118,7 @@ export async function authLogin(argv: any) {
       if (response.ok && data.access_token) {
         saveCredentials({
           accessToken: data.access_token,
-          apiUrl: data.api_url || 'https://api.postiz.com',
+          apiUrl: data.api_url || 'https://app.socialsyncs.co',
           organizationId: data.organization_id,
         });
 
@@ -143,11 +139,9 @@ export async function authLogin(argv: any) {
         process.exit(1);
       }
 
-      // Unknown error
       console.error(`❌ Authorization failed: ${data.error}`);
       process.exit(1);
     } catch {
-      // Network error during poll — keep trying
       continue;
     }
   }
@@ -168,7 +162,7 @@ export async function authLogout() {
 }
 
 export async function authStatus() {
-  const envKey = process.env.POSTIZ_API_KEY;
+  const envKey = process.env.SOCIALSYNCS_API_KEY;
   const creds = loadCredentials();
 
   let apiKey: string | undefined;
@@ -188,16 +182,15 @@ export async function authStatus() {
     console.log('🔑 Authentication method: API Key (environment variable)');
     console.log(`🔑 Key: ${envKey.substring(0, 8)}...`);
     apiKey = envKey;
-    apiUrl = process.env.POSTIZ_API_URL || 'https://api.postiz.com';
+    apiUrl = process.env.SOCIALSYNCS_API_URL || 'https://app.socialsyncs.co';
   } else {
     console.log('❌ Not authenticated.');
     console.log('\nOptions:');
-    console.log('  1. OAuth2: postiz auth:login');
-    console.log('  2. API Key: export POSTIZ_API_KEY=your_api_key');
+    console.log('  1. OAuth2: socialsyncs auth:login');
+    console.log('  2. API Key: export SOCIALSYNCS_API_KEY=your_api_key');
     return;
   }
 
-  // Verify credentials by calling the integrations endpoint
   console.log('\n🔄 Verifying credentials...');
   try {
     const response = await fetch(`${apiUrl}/public/v1/integrations`, {
@@ -214,9 +207,9 @@ export async function authStatus() {
     } else if (response.status === 401 || response.status === 403) {
       console.log('❌ Credentials are expired or invalid. Please re-authenticate.');
       if (creds) {
-        console.log('   Run: postiz auth:login');
+        console.log('   Run: socialsyncs auth:login');
       } else {
-        console.log('   Update your POSTIZ_API_KEY environment variable.');
+        console.log('   Update your SOCIALSYNCS_API_KEY environment variable.');
       }
     } else {
       const error = await response.text();
