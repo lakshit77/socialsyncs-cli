@@ -1,15 +1,15 @@
 import fetch, { FormData } from 'node-fetch';
 
-export interface PostizConfig {
+export interface SocialSyncsConfig {
   apiKey: string;
   apiUrl?: string;
 }
 
-export class PostizAPI {
+export class SocialSyncsAPI {
   private apiKey: string;
   private apiUrl: string;
 
-  constructor(config: PostizConfig) {
+  constructor(config: SocialSyncsConfig) {
     this.apiKey = config.apiKey;
     this.apiUrl = config.apiUrl || 'https://app.socialsyncs.co/api';
   }

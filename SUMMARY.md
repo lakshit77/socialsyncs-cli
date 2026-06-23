@@ -1,14 +1,14 @@
-# Postiz CLI - Creation Summary
+# SocialSyncs CLI - Creation Summary
 
 ## ✅ What Was Created
 
-A complete, production-ready CLI package for the Postiz API has been successfully created at `apps/cli/`.
+A complete, production-ready CLI package for the SocialSyncs API has been successfully created at `apps/cli/`.
 
 ### Package Details
 
-- **Package Name:** `postiz`
+- **Package Name:** `socialsyncs`
 - **Version:** 1.0.0
-- **Executable:** `postiz` command
+- **Executable:** `socialsyncs` command
 - **Lines of Code:** 359 lines
 - **Build Size:** ~491KB (compressed)
 - **License:** AGPL-3.0
@@ -19,7 +19,7 @@ A complete, production-ready CLI package for the Postiz API has been successfull
 apps/cli/
 ├── src/                          # Source code (359 lines)
 │   ├── index.ts                  # CLI entry point with yargs
-│   ├── api.ts                    # Postiz API client
+│   ├── api.ts                    # SocialSyncs API client
 │   ├── config.ts                 # Environment configuration
 │   └── commands/
 │       ├── posts.ts              # Post management
@@ -73,8 +73,8 @@ apps/cli/
 
 ### Technical Features
 
-- ✅ Environment variable configuration (POSTIZ_API_KEY)
-- ✅ Custom API URL support (POSTIZ_API_URL)
+- ✅ Environment variable configuration (SOCIALSYNCS_API_KEY)
+- ✅ Custom API URL support (SOCIALSYNCS_API_URL)
 - ✅ Comprehensive error handling
 - ✅ User-friendly error messages with emojis
 - ✅ JSON output for programmatic parsing
@@ -142,24 +142,24 @@ apps/cli/
 
 ```bash
 # Set API key
-export POSTIZ_API_KEY=your_api_key
+export SOCIALSYNCS_API_KEY=your_api_key
 
 # Create a post
-postiz posts:create -c "Hello World!" -i "twitter-123"
+socialsyncs posts:create -c "Hello World!" -i "twitter-123"
 
 # List posts
-postiz posts:list
+socialsyncs posts:list
 
 # Upload media
-postiz upload ./image.png
+socialsyncs upload ./image.png
 ```
 
 ### AI Agent Usage
 
 ```bash
 # Post to social media
-export POSTIZ_API_KEY="your_key"
-postiz posts:create -c "Your content here"
+export SOCIALSYNCS_API_KEY="your_key"
+socialsyncs posts:create -c "Your content here"
 ```
 
 ## ✨ Example Files
@@ -186,18 +186,18 @@ postiz posts:create -c "Your content here"
 
 ```
 ✅ pnpm run build:cli - SUCCESS
-✅ postiz --help - SUCCESS
-✅ postiz --version - SUCCESS
-✅ postiz posts:create --help - SUCCESS
+✅ socialsyncs --help - SUCCESS
+✅ socialsyncs --version - SUCCESS
+✅ socialsyncs posts:create --help - SUCCESS
 ✅ Error without API key - WORKS AS EXPECTED
 ```
 
 ## 📋 Checklist
 
 - ✅ CLI package created in apps/cli
-- ✅ Package name is "postiz"
-- ✅ Uses POSTIZ_API_KEY environment variable
-- ✅ Integrates with Postiz public API
+- ✅ Package name is "socialsyncs"
+- ✅ Uses SOCIALSYNCS_API_KEY environment variable
+- ✅ Integrates with SocialSyncs public API
 - ✅ Built for AI agent usage
 - ✅ SKILL.md created with comprehensive guide
 - ✅ README.md with full documentation
@@ -224,7 +224,7 @@ cd apps/cli
 pnpm link --global
 
 # Use anywhere
-postiz --help
+socialsyncs --help
 ```
 
 ### To Publish to npm
@@ -240,8 +240,8 @@ pnpm run publish
 
 ### To Use in AI Agents
 
-1. Install: `npm install -g postiz`
-2. Set API key: `export POSTIZ_API_KEY=your_key`
+1. Install: `npm install -g socialsyncs`
+2. Set API key: `export SOCIALSYNCS_API_KEY=your_key`
 3. Use commands programmatically
 4. Parse JSON output
 5. See SKILL.md for patterns
@@ -259,7 +259,7 @@ pnpm run publish
 
 ## 🎉 Summary
 
-A complete, production-ready CLI tool for Postiz has been created with:
+A complete, production-ready CLI tool for SocialSyncs has been created with:
 
 - ✅ All requested features implemented
 - ✅ Comprehensive documentation for users and AI agents

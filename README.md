@@ -4,11 +4,11 @@
 npx skills add lakshit77/socialsyncs-cli
 ```
 
-# Postiz CLI
+# SocialSyncs CLI
 
 **Social media automation CLI for AI agents** - Schedule posts across 28+ platforms programmatically.
 
-The Postiz CLI provides a command-line interface to the Postiz API, enabling developers and AI agents to automate social media posting, manage content, and handle media uploads across platforms like Twitter/X, LinkedIn, Reddit, YouTube, TikTok, Instagram, Facebook, and more.
+The SocialSyncs CLI provides a command-line interface to the SocialSyncs API, enabling developers and AI agents to automate social media posting, manage content, and handle media uploads across platforms like Twitter/X, LinkedIn, Reddit, YouTube, TikTok, Instagram, Facebook, and more.
 
 ---
 
@@ -49,7 +49,7 @@ socialsyncs auth:logout
 
 #### Self-Hosting the Auth Server
 
-By default, `socialsyncs auth:login` uses the hosted auth server at `cli-auth.postiz.com`. If you want to self-host the OAuth2 device flow server, follow the guide in [`server/SERVER.md`](./server/SERVER.md).
+By default, `socialsyncs auth:login` uses the hosted auth server at `auth.socialsyncs.co`. If you want to self-host the OAuth2 device flow server, follow the guide in [`server/SERVER.md`](./server/SERVER.md).
 
 ### Option 2: API Key
 
@@ -260,7 +260,7 @@ socialsyncs upload <file-path>
 
 **⚠️ IMPORTANT: Upload Files Before Posting**
 
-You **must** upload media files to Postiz before using them in posts. Many platforms (especially TikTok, Instagram, and YouTube) require verified/trusted URLs and will reject external links.
+You **must** upload media files to SocialSyncs before using them in posts. Many platforms (especially TikTok, Instagram, and YouTube) require verified/trusted URLs and will reject external links.
 
 **Workflow:**
 1. Upload your file using `socialsyncs upload`
@@ -277,14 +277,14 @@ You **must** upload media files to Postiz before using them in posts. Many platf
 RESULT=$(socialsyncs upload video.mp4)
 PATH=$(echo "$RESULT" | jq -r '.path')
 
-# 2. Use the Postiz URL in your post
+# 2. Use the SocialSyncs URL in your post
 socialsyncs posts:create -c "Check out my video!" -s "2024-12-31T12:00:00Z" -m "$PATH" -i "tiktok-id"
 ```
 
 **Why this is required:**
 - **TikTok, Instagram, YouTube** only accept URLs from trusted domains
 - **Security:** Platforms verify media sources to prevent abuse
-- **Reliability:** Postiz ensures your media is always accessible
+- **Reliability:** SocialSyncs ensures your media is always accessible
 
 ---
 
@@ -553,7 +553,7 @@ done
 
 ## API Endpoints
 
-The CLI interacts with these Postiz API endpoints:
+The CLI interacts with these SocialSyncs API endpoints:
 
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
@@ -576,7 +576,7 @@ The CLI interacts with these Postiz API endpoints:
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `SOCIALSYNCS_API_KEY` | No* | - | Your Postiz API key |
+| `SOCIALSYNCS_API_KEY` | No* | - | Your SocialSyncs API key |
 | `SOCIALSYNCS_API_URL` | No | `https://app.socialsyncs.co` | Custom API endpoint |
 | `SOCIALSYNCS_AUTH_SERVER` | No | `https://app.socialsyncs.co` | Custom auth server URL |
 
@@ -612,7 +612,7 @@ The CLI provides clear error messages with exit codes:
 ```
 src/
 ├── index.ts              # CLI entry point with yargs
-├── api.ts                # PostizAPI client class
+├── api.ts                # SocialSyncsAPI client class
 ├── config.ts             # Configuration (OAuth2 + API key)
 └── commands/
     ├── auth.ts           # OAuth2 authentication (login/logout/status)
@@ -691,7 +691,7 @@ socialsyncs posts:missing <id>                         # List provider content
 socialsyncs posts:connect <id> --release-id "<rid>"    # Connect content to post
 
 # Help
-postiz --help                                     # Show help
+socialsyncs --help                                     # Show help
 socialsyncs posts:create --help                        # Command help
 ```
 
@@ -699,7 +699,7 @@ socialsyncs posts:create --help                        # Command help
 
 ## Contributing
 
-This CLI is part of the [Postiz monorepo](https://github.com/gitroomhq/postiz-app).
+This CLI is part of the [SocialSyncs monorepo](https://github.com/lakshit77/socialsyncs-cli).
 
 To contribute:
 1. Fork the repository
@@ -718,10 +718,10 @@ AGPL-3.0
 
 ## Links
 
-- **Website:** [postiz.com](https://postiz.com)
-- **API Docs:** [docs.postiz.com](https://app.socialsyncs.co
-- **GitHub:** [gitroomhq/postiz-app](https://github.com/gitroomhq/postiz-app)
-- **Issues:** [Report bugs](https://github.com/gitroomhq/postiz-app/issues)
+- **Website:** [socialsyncs.co](https://app.socialsyncs.co)
+- **API Docs:** [app.socialsyncs.co](https://app.socialsyncs.co
+- **GitHub:** [lakshit77/socialsyncs-cli](https://github.com/lakshit77/socialsyncs-cli)
+- **Issues:** [Report bugs](https://github.com/lakshit77/socialsyncs-cli/issues)
 
 ---
 

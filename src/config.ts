@@ -1,7 +1,7 @@
-import { PostizConfig } from './api';
+import { SocialSyncsConfig } from './api';
 import { loadCredentials } from './commands/auth';
 
-export function getConfig(): PostizConfig {
+export function getConfig(): SocialSyncsConfig {
   // Check for stored OAuth credentials first
   const creds = loadCredentials();
   if (creds) {

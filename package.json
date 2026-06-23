@@ -1,6 +1,6 @@
 {
   "name": "socialsyncs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "SocialSyncs CLI - Command line interface for the SocialSyncs social media scheduling API",
   "main": "dist/index.js",
   "bin": {
