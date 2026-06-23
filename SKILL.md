@@ -23,7 +23,7 @@ official website: https://app.socialsyncs.co
 | Property | Value |
 |----------|-------|
 | **name** | socialsyncs |
-| **description** | Social media automation CLI for scheduling posts across 28+ platforms |
+| **description** | Social media CLI for scheduling posts across 28+ platforms and managing auto-reply / DM automations |
 | **allowed-tools: Bash(socialsyncs:*) |
 
 ---
@@ -274,6 +274,41 @@ VIDEO=$(socialsyncs upload video.mp4)
 VIDEO_PATH=$(echo "$VIDEO" | jq -r '.path')
 socialsyncs posts:create -c "Content" -s "2024-12-31T12:00:00Z" -m "$VIDEO_PATH" -i "tiktok-id"
 ```
+
+### Automations
+
+Automations are **auto-reply / DM workflows** — e.g. automatically reply to Instagram comments or DMs that match a keyword.
+
+> **When the user says "list my automations", "show my automations", "my automation skills", or asks anything about automations / auto-reply / DM workflows, run `socialsyncs automations:list`.** Do **NOT** substitute posts, recurring posts, scheduled posts, or analytics — those are different features. `automations:list` is the correct command.
+
+```bash
+# List all automations (optionally filter by channel/integration)
+socialsyncs automations:list
+socialsyncs automations:list --integration "<integration-id>"
+
+# Get a single automation
+socialsyncs automations:get <automation-id>
+
+# Create / update from a workflow JSON file
+socialsyncs automations:create --json automation.json
+socialsyncs automations:update <automation-id> --json automation.json
+
+# Activate / pause an automation
+socialsyncs automations:toggle <automation-id> --active false   # pause
+socialsyncs automations:toggle <automation-id> --active true    # resume
+
+# Delete an automation
+socialsyncs automations:delete <automation-id>
+
+# Run history
+socialsyncs automations:logs <automation-id>
+socialsyncs automations:logs <automation-id> --limit 10
+
+# Dry-run the trigger against a sample message (nothing is sent)
+socialsyncs automations:test <automation-id> --text "what is the price?"
+```
+
+The create/update workflow JSON has `name`, `integration_id`, `is_active`, and an `events` array (one trigger with nested `actions`). The automation engine is org-scoped — your API key resolves the org. If the automation service isn't enabled on the instance, these commands return `404 Automation service is not enabled`.
 
 ---
 
