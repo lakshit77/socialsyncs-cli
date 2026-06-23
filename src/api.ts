@@ -198,4 +198,77 @@ export class SocialSyncsAPI {
       body: JSON.stringify({ methodName, data }),
     });
   }
+
+  // ─── Automations ──────────────────────────────────────────────────────────
+  // The automation engine is org-scoped; the API key resolves the org server
+  // side. These hit /public/v1/automations which forwards to the private
+  // automation service.
+
+  async listAutomations(integrationId?: string) {
+    const query = integrationId
+      ? `?integrationId=${encodeURIComponent(integrationId)}`
+      : '';
+    return this.request(`/public/v1/automations${query}`, {
+      method: 'GET',
+    });
+  }
+
+  async getAutomation(id: string) {
+    return this.request(`/public/v1/automations/${id}`, {
+      method: 'GET',
+    });
+  }
+
+  async createAutomation(workflow: any) {
+    return this.request('/public/v1/automations', {
+      method: 'POST',
+      body: JSON.stringify(workflow),
+    });
+  }
+
+  async updateAutomation(id: string, workflow: any) {
+    return this.request(`/public/v1/automations/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(workflow),
+    });
+  }
+
+  async toggleAutomation(id: string, active: boolean) {
+    return this.request(`/public/v1/automations/${id}/active`, {
+      method: 'PATCH',
+      body: JSON.stringify({ active }),
+    });
+  }
+
+  async deleteAutomation(id: string) {
+    return this.request(`/public/v1/automations/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async getAutomationLogs(
+    id: string,
+    opts: { cursor?: string; limit?: number } = {}
+  ) {
+    const params = new URLSearchParams();
+    if (opts.cursor) params.set('cursor', opts.cursor);
+    if (opts.limit) params.set('limit', String(opts.limit));
+    const query = params.toString();
+    return this.request(
+      `/public/v1/automations/${id}/logs${query ? `?${query}` : ''}`,
+      {
+        method: 'GET',
+      }
+    );
+  }
+
+  async testAutomation(
+    id: string,
+    body: { sampleText: string; samplePostId?: string; sampleUsername?: string }
+  ) {
+    return this.request(`/public/v1/automations/${id}/test`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+  }
 }

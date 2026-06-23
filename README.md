@@ -233,6 +233,60 @@ socialsyncs analytics:post <post-id>
 
 ---
 
+### Automations
+
+Manage auto-reply / DM automation workflows (e.g. reply to Instagram comments that match a keyword). The automation engine is org-scoped — your API key resolves the org server-side.
+
+> Requires the automation service to be enabled on your instance. If it isn't, these commands return `404 Automation service is not enabled`.
+
+**List automations**
+```bash
+socialsyncs automations:list
+socialsyncs automations:list --integration "instagram-123"
+```
+
+**Get a single automation**
+```bash
+socialsyncs automations:get <automation-id>
+```
+
+**Create an automation** (from a workflow JSON file — see [`examples/automation.json`](./examples/automation.json))
+```bash
+socialsyncs automations:create --json ./automation.json
+```
+
+**Update an automation**
+```bash
+socialsyncs automations:update <automation-id> --json ./automation.json
+```
+
+**Activate / pause an automation**
+```bash
+socialsyncs automations:toggle <automation-id> --active false   # pause
+socialsyncs automations:toggle <automation-id> --active true    # resume
+```
+
+**Delete an automation**
+```bash
+socialsyncs automations:delete <automation-id>
+```
+
+**View run history**
+```bash
+socialsyncs automations:logs <automation-id>
+socialsyncs automations:logs <automation-id> --limit 10
+```
+
+**Test the trigger against a sample message** (dry-run — nothing is sent)
+```bash
+socialsyncs automations:test <automation-id> --text "what is the price?"
+socialsyncs automations:test <automation-id> --text "info" --username someuser
+```
+
+The workflow JSON shape (for create/update) is the same one the dashboard builder produces — a `name`, `integration_id`, `is_active`, and an `events` array of one trigger with nested `actions`. See [`examples/automation.json`](./examples/automation.json) for a working comment-keyword → auto-reply example.
+
+---
+
 ### Connecting Missing Posts
 
 Some platforms (e.g. TikTok) don't return a post ID immediately after publishing. The post's `releaseId` is set to `"missing"` and analytics won't work until resolved.

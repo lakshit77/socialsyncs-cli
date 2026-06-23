@@ -5,6 +5,16 @@ import { listIntegrations, listGroups, getIntegrationSettings, triggerIntegratio
 import { getAnalytics, getPostAnalytics } from './commands/analytics';
 import { uploadFile } from './commands/upload';
 import { authLogin, authLogout, authStatus } from './commands/auth';
+import {
+  listAutomations,
+  getAutomation,
+  createAutomation,
+  updateAutomation,
+  toggleAutomation,
+  deleteAutomation,
+  automationLogs,
+  testAutomation,
+} from './commands/automations';
 import type { Argv } from 'yargs';
 
 yargs(hideBin(process.argv))
@@ -350,6 +360,146 @@ yargs(hideBin(process.argv))
         );
     },
     getPostAnalytics as any
+  )
+  .command(
+    'automations:list',
+    'List automations (auto-reply / DM workflows)',
+    (yargs: Argv) => {
+      return yargs
+        .option('integration', {
+          alias: 'i',
+          describe: 'Filter by integration (channel) ID',
+          type: 'string',
+        })
+        .example('$0 automations:list', 'List all automations')
+        .example(
+          '$0 automations:list -i "instagram-123"',
+          'List automations for one channel'
+        );
+    },
+    listAutomations as any
+  )
+  .command(
+    'automations:get <id>',
+    'Get a single automation by ID',
+    (yargs: Argv) => {
+      return yargs
+        .positional('id', { describe: 'Automation ID', type: 'string' })
+        .example('$0 automations:get auto-123', 'Show one automation');
+    },
+    getAutomation as any
+  )
+  .command(
+    'automations:create',
+    'Create an automation from a workflow JSON file',
+    (yargs: Argv) => {
+      return yargs
+        .option('json', {
+          alias: 'j',
+          describe: 'Path to a workflow JSON file',
+          type: 'string',
+          demandOption: true,
+        })
+        .example(
+          '$0 automations:create --json ./automation.json',
+          'Create an automation from a workflow file'
+        );
+    },
+    createAutomation as any
+  )
+  .command(
+    'automations:update <id>',
+    'Update an automation from a workflow JSON file',
+    (yargs: Argv) => {
+      return yargs
+        .positional('id', { describe: 'Automation ID', type: 'string' })
+        .option('json', {
+          alias: 'j',
+          describe: 'Path to a workflow JSON file',
+          type: 'string',
+          demandOption: true,
+        })
+        .example(
+          '$0 automations:update auto-123 --json ./automation.json',
+          'Replace an automation workflow'
+        );
+    },
+    updateAutomation as any
+  )
+  .command(
+    'automations:toggle <id>',
+    'Activate or deactivate an automation',
+    (yargs: Argv) => {
+      return yargs
+        .positional('id', { describe: 'Automation ID', type: 'string' })
+        .option('active', {
+          alias: 'a',
+          describe: 'Set active state',
+          type: 'string',
+          choices: ['true', 'false'],
+          demandOption: true,
+        })
+        .example('$0 automations:toggle auto-123 -a false', 'Pause an automation')
+        .example('$0 automations:toggle auto-123 -a true', 'Resume an automation');
+    },
+    toggleAutomation as any
+  )
+  .command(
+    'automations:delete <id>',
+    'Delete an automation',
+    (yargs: Argv) => {
+      return yargs
+        .positional('id', { describe: 'Automation ID', type: 'string' })
+        .example('$0 automations:delete auto-123', 'Delete an automation');
+    },
+    deleteAutomation as any
+  )
+  .command(
+    'automations:logs <id>',
+    'Show run history for an automation',
+    (yargs: Argv) => {
+      return yargs
+        .positional('id', { describe: 'Automation ID', type: 'string' })
+        .option('limit', {
+          alias: 'l',
+          describe: 'Max number of log entries (default: 50)',
+          type: 'number',
+        })
+        .option('cursor', {
+          describe: 'Pagination cursor from a previous response',
+          type: 'string',
+        })
+        .example('$0 automations:logs auto-123', 'Last 50 runs')
+        .example('$0 automations:logs auto-123 -l 10', 'Last 10 runs');
+    },
+    automationLogs as any
+  )
+  .command(
+    'automations:test <id>',
+    'Dry-run an automation against a sample message (no message is sent)',
+    (yargs: Argv) => {
+      return yargs
+        .positional('id', { describe: 'Automation ID', type: 'string' })
+        .option('text', {
+          alias: 't',
+          describe: 'Sample comment/DM text to test the trigger against',
+          type: 'string',
+          demandOption: true,
+        })
+        .option('post-id', {
+          describe: 'Sample post ID (for post-scoped triggers)',
+          type: 'string',
+        })
+        .option('username', {
+          describe: 'Sample sender username',
+          type: 'string',
+        })
+        .example(
+          '$0 automations:test auto-123 -t "what is the price?"',
+          'Check whether this text would trigger the automation'
+        );
+    },
+    testAutomation as any
   )
   .command(
     'upload <file>',

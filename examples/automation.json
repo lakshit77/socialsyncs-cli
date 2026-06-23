@@ -1,0 +1,50 @@
+{
+  "name": "Comment keyword → auto reply",
+  "integration_id": "REPLACE_WITH_INSTAGRAM_INTEGRATION_ID",
+  "is_active": false,
+  "events": [
+    {
+      "event_type": "trigger",
+      "event_category": "post_comment",
+      "event_uuid": "11111111-1111-4111-8111-111111111111",
+      "previous_event_uuid": null,
+      "is_active": true,
+      "event_config": {
+        "comment_config": {
+          "all_comments": false,
+          "keywords": ["price", "link", "info"],
+          "excluded_keywords": [],
+          "fuzzy_match_allowed": true,
+          "fuzzy_match_percentage": 80
+        },
+        "post_config": {
+          "all_posts": true,
+          "post_ids": [],
+          "upcoming_posts": false
+        }
+      },
+      "actions": [
+        {
+          "event_type": "action",
+          "event_category": "reply_to_comment",
+          "event_uuid": "22222222-2222-4222-8222-222222222222",
+          "previous_event_uuid": "11111111-1111-4111-8111-111111111111",
+          "is_active": true,
+          "event_config": {
+            "reply_type": "templates",
+            "templates": [
+              "Check your DMs 👋",
+              "Just sent you a message 📩",
+              "I've replied in your inbox 🙌"
+            ],
+            "webhook_url": null,
+            "dynamic_data": {
+              "variables": [],
+              "custom_user_data": {}
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -5,6 +5,20 @@ All notable changes to the SocialSyncs CLI will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-06-23
+
+### Added
+- **Automations** — manage auto-reply / DM workflows from the CLI:
+  - `automations:list` — list automations (optional `--integration` filter)
+  - `automations:get <id>` — show a single automation
+  - `automations:create --json <file>` — create from a workflow JSON file
+  - `automations:update <id> --json <file>` — replace a workflow
+  - `automations:toggle <id> --active <true|false>` — activate / pause
+  - `automations:delete <id>` — delete an automation
+  - `automations:logs <id>` — run history (`--limit`, `--cursor`)
+  - `automations:test <id> --text "..."` — dry-run the trigger against a sample message (nothing is sent)
+- `examples/automation.json` — sample comment-keyword → auto-reply workflow
+
 ## [1.0.0] - 2026-02-13
 
 ### Added
